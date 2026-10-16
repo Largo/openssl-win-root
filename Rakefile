@@ -1,15 +1,12 @@
+# frozen_string_literal: true
+
 require "bundler/gem_tasks"
+require "rake/testtask"
 
-desc 'Run tests'
-task :test do
-  require "minitest/autorun"
-
-  Dir.glob('./test/*.rb'){|f| require f}
-end
-
-desc 'Store root certificates to disk'
-task :preload do
-  system "rake", chdir: "ext"
+Rake::TestTask.new(:test) do |t|
+  t.libs << "lib"
+  t.test_files = FileList["test/test_*.rb"]
+  t.warning = true
 end
 
 task default: :test
